@@ -1,4 +1,4 @@
-# Eth guidelines.
+# Eth guidelines. (Work in progress)
 
 In the following sections I will try to describe things that I had problem to deal with and how I actually managed to accomplish them. It's quite interesting how all tutorials and documentation even is outdated easily. This might get outdated as well but at least I will try to update it as frequently as possible.
 
