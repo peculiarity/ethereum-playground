@@ -22,6 +22,8 @@ contract StringContainer {
 
 contract StringUtils {
     
+    // constant is used to mark that the method doesn't change any state.
+    // bear in mind that the compiler doesn't force function not to change the internal state yet
     function equals(string memory first,string memory second) constant returns (bool areEqual){
         bytes  memory bytesFirst =  bytes(first);
         bytes  memory bytesSecond = bytes(second);
