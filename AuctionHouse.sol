@@ -4,6 +4,7 @@ contract AuctionHouse {
     
     //Used for debugging purposes only.
     event Print(uint256 output);
+    event PrintAddr(address addr);
     
         //Easily can be handled by even listener on the client and implication is basically
     // Listening for new auctions, notifying an user and placing bids as fast as possible.
@@ -19,8 +20,15 @@ contract AuctionHouse {
       _;  
     }
     
-    modifier ifAuctionExists (){
-      var hasAlreadyAuction = auctions[msg.sender].isInitialized;
+    modifier andBidderIsNotTheAuctionOwner(address seller){
+        PrintAddr(seller);
+        PrintAddr(msg.sender);
+        if(seller == msg.sender) throw;
+        _;
+    }
+    
+    modifier ifAuctionExists (address seller){
+      var hasAlreadyAuction = auctions[seller].isInitialized;
       if(!hasAlreadyAuction) throw;
       _;  
     }
@@ -50,7 +58,7 @@ contract AuctionHouse {
         AuctionOpened(seller,item);
     }
     
-    function placeBid(address seller, uint256 amount) ifAuctionExists returns (bool bidPlacedSuccessfully){
+    function placeBid(address seller, uint256 amount) ifAuctionExists(seller) andBidderIsNotTheAuctionOwner(seller) returns (bool bidPlacedSuccessfully){
         var auction = auctions[seller];
         
         var bid = Bid(msg.sender,amount);
@@ -75,12 +83,12 @@ contract AuctionHouse {
         }
     }
     
-    function closeAuction() ifAuctionExists returns (bool auctionClosedSuccessfully) {
+    function closeAuction() ifAuctionExists(msg.sender) returns (bool auctionClosedSuccessfully) {
         var auction = auctions[msg.sender];
         auction.isInitialized = false;
         auction.state = AuctionState.Inactive;
         
-        AuctionOpened(msg.sender,auction.item);
+        AuctionClosed(msg.sender,auction.item);
         return true;
     }
 }
