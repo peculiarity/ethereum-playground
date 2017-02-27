@@ -4,8 +4,7 @@ pragma solidity 0.4.9;
 contract StringContainer {
     
     string[] public listOfStrings;
-    StringUtils utils = new StringUtils();
-    
+    StringUtils utils = new StringUtils();    
     
     function add(string memory newString) returns (bool success){
         
@@ -17,16 +16,15 @@ contract StringContainer {
         
         listOfStrings.push(newString);
         return true;
-    }
-    
+    }    
 }
 
 
 contract StringUtils {
     
     function equals(string memory first,string memory second) constant returns (bool areEqual){
-         bytes  memory bytesFirst =  bytes(first);
-         bytes  memory bytesSecond = bytes(second);
+        bytes  memory bytesFirst =  bytes(first);
+        bytes  memory bytesSecond = bytes(second);
         
         if(bytesFirst.length != bytesSecond.length){
             return false;
